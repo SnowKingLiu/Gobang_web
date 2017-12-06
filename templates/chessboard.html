@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Snow五指棋</title>
+    <link rel="stylesheet" href="{% static 'css/gobang_css.css' %}">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+    <canvas id="mycanvas" width="450px" height="450px"></canvas>
+    <script src="{% static 'js/csrf.js' %}"></script>
+    <script src="{% static 'js/gobang.js' %}"></script>
+</body>
+</html>
