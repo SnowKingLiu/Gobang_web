@@ -2,7 +2,6 @@
 var chess = document.getElementById("mycanvas");
 var context = chess.getContext('2d');
 var isBlack = true;
-var computerFirst = false;
 
 // 用于存放棋盘中落子的情况
 var chessBox = [];
@@ -63,35 +62,41 @@ chess.onclick=function(e){
     // 判断是否已落过子，黑棋是1，白棋是-1
     if(chessBox[i][j] == 0) {
         if(isBlack){
-            if(!computerFirst){
-                oneStep(i,j,isBlack);
-                // 换人
-                isBlack=!isBlack;
-                // 汇报一次局势
-                updateChessboard();
-            }
+            oneStep(i,j,isBlack);
+            // 汇报一次局势
+            updateChessboard(i, j);
+            // 换人
+            isBlack=!isBlack;
+            chessBox[i][j]=1;
         }else{
-            if(computerFirst) {
-                oneStep(i, j, isBlack);
-                // 换人
-                isBlack=!isBlack;
-                // 汇报一次局势
-                updateChessboard();
-            }
+            oneStep(i, j, isBlack);
+            // 汇报一次局势
+            updateChessboard(i, j);
+            // 换人
+            isBlack=!isBlack;
+            chessBox[i][j] = -1;
         }
     }
 }
 
 // 下完了一次，向服务器汇报一次局势
-function updateChessboard() {
+function updateChessboard(i, j) {
     // 发送棋盘去服务器
     // $.get("send_chessboard/?chessBox=" + chessBox.valueOf(), function (data, status) {
     //     // alert("ok");
     //
     // })
+    var user = 0;
+    if (isBlack)
+        user = 1;
+    else user = -1;
     $.ajax({
-        url: 'send_chessboard',
-        data: {"chessBox": JSON.stringify( chessBox)},
+        url: 'send_train_chessboard',
+        data: {
+            "chessBox": JSON.stringify(chessBox),
+            "plan": JSON.stringify([i, j]),
+            "user": user
+        },
         dataType: "json",
         type: "POST",
         //traditional: true,

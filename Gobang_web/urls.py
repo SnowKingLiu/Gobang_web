@@ -17,11 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 from gobang_ai.views import send_chessboard
+from train.views import send_train_chessboard
 
 urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/media/favicon.ico')),
     url(r'^admin/', admin.site.urls),
-    url('^$', TemplateView.as_view(template_name="chessboard.html"), name="chessboard"),
-    url('^send_chessboard', send_chessboard, name="send_chessboard"),
-
+    url(r'^$', TemplateView.as_view(template_name="chessboard.html"), name="chessboard"),
+    url(r'^send_chessboard', send_chessboard, name="send_chessboard"),
+    url(r'^send_train_chessboard', send_train_chessboard, name="send_train_chessboard"),
+    url(r'^train', TemplateView.as_view(template_name="train.html"), name="train"),
 ]
